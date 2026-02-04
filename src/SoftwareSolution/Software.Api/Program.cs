@@ -3,7 +3,7 @@ using Software.Api.BackingApis;
 using Software.Api.Catalog;
 
 var builder = WebApplication.CreateBuilder(args); // Hey Microsoft, give me the stuff you think I'll need.
-builder.AddNpgsqlDataSource("software-db");
+builder.AddNpgsqlDataSource("software-db"); // service location
 builder.AddServiceDefaults(); // Add our "standard" resiliency, open telemetry, all that.
 // ASPNETCORE_ENVIRONMENT=Tacos
 // The last place is the actual environment variables on the machine.
@@ -16,11 +16,11 @@ builder.AddServiceDefaults(); // Add our "standard" resiliency, open telemetry, 
 // Add services to the container.
 // TypedHttpClient
 
-var vendorApi = builder.Configuration.GetValue<string>("VENDORS_API") ?? throw new Exception("No Vendor Url");
+//var vendorApi = builder.Configuration.GetValue<string>("VENDORS_API") ?? throw new Exception("No Vendor Url");
 
 builder.Services.AddHttpClient<Vendors>(client =>
 {
-    client.BaseAddress = new Uri(vendorApi);
+    client.BaseAddress = new Uri("https://vendors-api");
 }); // todo: throw a sample of proxy config.
 
 
